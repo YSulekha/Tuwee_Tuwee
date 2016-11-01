@@ -41,7 +41,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/item_time"
+        android:fontFamily="sans-serif-thin"
+        android:textSize="14sp"
+        android:textColor="@color/colorPrimaryDark"
+        app:timeCalc="@{tweet.createdAt}"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_toRightOf="@id/item_name"
+        android:layout_toLeftOf="@id/item_time"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:gravity="center_vertical"
         android:layout_marginLeft="4dp"
         android:layout_marginStart="4dp"
@@ -51,16 +64,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:text="@{tweet.user.screenName}"
         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:id="@+id/item_time"
-        android:fontFamily="sans-serif-thin"
-        android:textSize="14sp"
-        android:textColor="@color/colorPrimaryDark"
-        app:timeCalc="@{tweet.createdAt}"/>
+
 
     <com.codepath.apps.tweet.utils.LinkifiedTextView
         android:layout_width="wrap_content"
@@ -75,6 +79,64 @@
         android:textSize="16sp"
         android:linksClickable="true"
       />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_body"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_favorite_black_24dp"
+        android:id="@+id/item_favorite"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_favorite_text"
+        android:layout_toRightOf="@id/item_favorite"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/item_body"
+        android:layout_marginRight="60dp"
+        android:textSize="18sp"
+        android:text="@{tweet.favoritedCount}"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/item_favorite_text"
+        android:layout_below="@id/item_body"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/ic_crop_black_24dp"
+        android:id="@+id/item_retweet"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_retweet_text"
+        android:layout_toRightOf="@id/item_retweet"
+        android:layout_below="@id/item_body"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="60dp"
+        android:textSize="18sp"
+        android:text="@{tweet.retweetCount}"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_body"
+        android:layout_toRightOf="@id/item_retweet_text"
+        android:src="@drawable/ic_reply_black_24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:id="@+id/item_reply"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_reply_text"
+        android:layout_toRightOf="@id/item_reply"
+        android:layout_below="@id/item_body"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:textSize="18sp"/>
+
+
     <com.yqritc.scalablevideoview.ScalableVideoView
         android:id="@+id/item_video_view"
         android:layout_width="match_parent"

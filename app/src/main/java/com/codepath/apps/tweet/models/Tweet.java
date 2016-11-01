@@ -34,6 +34,29 @@ public class Tweet extends BaseModel{
     @Column
     private String body;
 
+    @Column
+    private String favoritedCount;
+
+    @Column
+    private String retweetCount;
+
+    public String getRetweetCount() {
+        return retweetCount;
+    }
+
+    public void setRetweetCount(String retweetCount) {
+        this.retweetCount = retweetCount;
+    }
+
+    public String getFavoritedCount() {
+        return favoritedCount;
+    }
+
+    public void setFavoritedCount(String favoritedCount) {
+        this.favoritedCount = favoritedCount;
+    }
+
+
 
     public String getVideoUrl() {
         return videoUrl;
@@ -109,6 +132,8 @@ public class Tweet extends BaseModel{
         try {
             tweet.body = jsonObject.getString("text");
             tweet.createdAt = jsonObject.getString("created_at");
+            tweet.retweetCount = String.valueOf(jsonObject.getInt("retweet_count"));
+            tweet.favoritedCount = String.valueOf(jsonObject.getInt("favorite_count"));
             User user = User.fromJSONObject(jsonObject.getJSONObject("user"));
             user.save();
             tweet.user = user;
