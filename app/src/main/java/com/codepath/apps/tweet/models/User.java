@@ -61,23 +61,6 @@ public class User extends BaseModel {
     }
 
 
-
-
-   /* public User(JSONObject jsonObject){
-        try {
-            this.userName = jsonObject.getString("name");
-            this.screenName = "@"+jsonObject.getString("screen_name");
-            this.imageUrl = jsonObject.getString("profile_image_url");
-            this.userId = jsonObject.getLong("id");
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-    }*/
-
     public static User fromJSONObject(JSONObject jsonObject){
         User user = new User();
         try {

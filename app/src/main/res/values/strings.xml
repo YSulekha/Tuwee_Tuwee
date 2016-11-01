@@ -6,5 +6,6 @@
     <string name="title_activity_timeline">Home</string>
     <string name="reply_text">reply</string>
     <string name="detai_label">Tweet</string>
+    <string name="no_internet">Limited data displayed.No network available</string>
 
 </resources>

@@ -69,12 +69,10 @@ public class ComposeDialog extends DialogFragment {
 
     public void onClick(View v){
         if(isReply){
-            Log.v("Insidereply","hhh");
             listener = (TwitterDetailActivity) getActivity();
             RequestParams params = new RequestParams();
             status = binding.dialogStatus.getText().toString();
             params.put("status",status);
-            Log.v("Insidereply",status);
             params.put("in_reply_to_status_id",tweetId);
             listener.onTweet(params);
 

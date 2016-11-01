@@ -114,18 +114,7 @@ public class Tweet extends BaseModel{
     }
 
 
- /*   public Tweet(JSONObject jsonObject){
-        try {
-            this.body = jsonObject.getString("text");
-            this.createdAt = jsonObject.getString("created_at");
-            this.user = new User(jsonObject.getJSONObject("user"));
-            this.user.save();
-            this.tweetId = jsonObject.getLong("id");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-    }*/
 
     public static Tweet fromJSONObject(JSONObject jsonObject){
         Tweet tweet = new Tweet();
@@ -143,7 +132,6 @@ public class Tweet extends BaseModel{
                 String type = mediaArray.getJSONObject(0).getString("type");
                 if(type.equals("photo")){
                     tweet.mediaUrl = mediaArray.getJSONObject(0).getString("media_url")+":large";
-                    Log.v("mediaUrl",tweet.mediaUrl);
                 }
             }
             //[video_info][variants][0][url]
@@ -176,7 +164,6 @@ public class Tweet extends BaseModel{
                 continue;
             }
             Tweet tweet = fromJSONObject(tweetObject);
-            Log.v("JSONObject",tweetObject.toString());
             tweet.save();
             tweets.add(tweet);
         }

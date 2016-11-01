@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -32,7 +31,6 @@ public class TwitterDetailActivity extends AppCompatActivity implements ComposeD
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.v("DetailA","af");
         binding = DataBindingUtil.setContentView(this,R.layout.activity_twitter_detail);
 
         t = (Tweet)Parcels.unwrap(getIntent().getParcelableExtra("tweet"));
@@ -67,14 +65,12 @@ public class TwitterDetailActivity extends AppCompatActivity implements ComposeD
         //"created_at":"Mon Oct 31 14:20:57 +0000 2016"
         String relativeDate = Utility.relativeTime(createdAt);
         String d = Utility.formatDate(createdAt);
-        Log.v("responseDDe",d);
         return d;
 
     }
     public static void loadImage(ImageView imageView, String url){
         //    Picasso.with(imageView.getContext()).load(url).placeholder(R.color.colorPrimary).
         //      // into(imageView);
-        Log.v("Detail",url);
         Glide.with(imageView.getContext()).load(url).into(imageView);
     }
 

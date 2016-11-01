@@ -64,7 +64,6 @@ public class TweetsArrayAdapter extends RecyclerView.Adapter<TweetsArrayAdapter.
     @BindingAdapter("bind:timeCalc")
     public static void timeCalc(TextView textView, String createdAt){
         String relativeDate = Utility.relativeTime(createdAt);
-        Log.v("response",relativeDate);
         textView.setText(relativeDate);
     }
     @BindingAdapter("bind:videoDisplay")
