@@ -21,6 +21,7 @@ import com.codepath.apps.tweet.adapters.TweetsArrayAdapter;
 import com.codepath.apps.tweet.databinding.ActivityTimelineBinding;
 import com.codepath.apps.tweet.fragments.ComposeDialog;
 import com.codepath.apps.tweet.models.Tweet;
+import com.codepath.apps.tweet.models.Tweet_Table;
 import com.codepath.apps.tweet.utils.DividerItemDecoration;
 import com.codepath.apps.tweet.utils.EndlessScrollViewListener;
 import com.codepath.apps.tweet.utils.ItemClickSupport;
@@ -96,9 +97,17 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fm = getSupportFragmentManager();
-                ComposeDialog dialog = ComposeDialog.newInstance(null);
-                dialog.show(fm, "Dialog");
+                if (!Utility.isNetworkAvailable(view.getContext())) {
+                    //  Organization_Table.name.is("CodePath")
+                    tweets.addAll(select().from(Tweet.class).orderBy(Tweet_Table.createdAt,false).queryList());
+                    recyclerAdapter.notifyDataSetChanged();
+                    Toast.makeText(view.getContext(),getResources().getString(R.string.no_network),Toast.LENGTH_LONG).show();
+                }
+                else {
+                    FragmentManager fm = getSupportFragmentManager();
+                    ComposeDialog dialog = ComposeDialog.newInstance(null);
+                    dialog.show(fm, "Dialog");
+                }
             }
         });
         swipeRefreshLayout = timelineBinding.contentTimeline.swipeContainer;
@@ -111,7 +120,8 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
         //Singleton client
         twitterClient = TwitterApplication.getRestClient();
         if (!Utility.isNetworkAvailable(this)) {
-            tweets.addAll(select().from(Tweet.class).queryList());
+          //  Organization_Table.name.is("CodePath")
+            tweets.addAll(select().from(Tweet.class).orderBy(Tweet_Table.createdAt,false).queryList());
             recyclerAdapter.notifyDataSetChanged();
             Toast.makeText(this,getResources().getString(R.string.no_internet),Toast.LENGTH_LONG).show();
         } else {
@@ -122,6 +132,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.v("OnActivityResult","dds");
         // Check which request we're responding to
         if (requestCode == DETAIL_TWEET) {
             // Make sure the request was successful

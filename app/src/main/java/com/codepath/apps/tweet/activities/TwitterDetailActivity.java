@@ -49,6 +49,12 @@ public class TwitterDetailActivity extends AppCompatActivity implements ComposeD
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        setResult(RESULT_OK, intent);
+    }
+
     public void onClickReply(View v){
         isReply = true;
         FragmentManager fm = getSupportFragmentManager();
@@ -80,7 +86,6 @@ public class TwitterDetailActivity extends AppCompatActivity implements ComposeD
         intent.putExtra("is_reply", isReply);
         intent.putExtra("tweet_id",t.getTweetId());
         intent.putExtra("params",params);
-        setResult(RESULT_OK, intent);
 
     }
 }
