@@ -41,7 +41,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.TwitterDetailActivity"
             android:label="@string/detai_label"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".activities.TimelineActivity">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".activities.TimelineActivity" />
+        </activity>
     </application>
 
 </manifest>

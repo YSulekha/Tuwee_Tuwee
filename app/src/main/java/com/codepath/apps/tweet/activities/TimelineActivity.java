@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.codepath.apps.tweet.R;
 import com.codepath.apps.tweet.TwitterApplication;
@@ -54,11 +55,12 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
     ActivityTimelineBinding timelineBinding;
     private long sinceId = 0;
     private long maxId = 0;
+    public static final int DETAIL_TWEET = 1;
 
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         timelineBinding = DataBindingUtil.setContentView(this, R.layout.activity_timeline);
         // setContentView(R.layout.activity_timeline);
@@ -90,7 +92,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
                 Intent intent = new Intent(v.getContext(), TwitterDetailActivity.class);
                 Tweet t = tweets.get(position);
                 intent.putExtra("tweet", Parcels.wrap(t));
-                startActivity(intent);
+                startActivityForResult(intent, DETAIL_TWEET);
 
             }
         });
@@ -120,6 +122,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
             Log.v("tweetsdb+C", String.valueOf(tweets.size()));
             tweets.addAll(select().from(Tweet.class).queryList());
             recyclerAdapter.notifyDataSetChanged();
+            Toast.makeText(this,"Limited data displayed.No network available",Toast.LENGTH_LONG).show();
             Log.v("tweetsdb+C", String.valueOf(tweets.size()));
         } else {
             //populate timeline
@@ -127,6 +130,20 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == DETAIL_TWEET) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+               if(data.getBooleanExtra("is_reply",false)){
+                 RequestParams params = data.getParcelableExtra("params");
+                   onTweet(params);
+                   Log.v("OnActivityResult","addfd");
+               }
+            }
+        }
+    }
     @Override
     protected void onPause() {
         super.onPause();
@@ -148,7 +165,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
     private void populateTimeline(boolean isFirstTime, final boolean isRefresh) {
         Log.v("lastTweet", String.valueOf(maxId) + " " + tweets.size());
         RequestParams params = new RequestParams();
-        params.put("count", 40);
+        params.put("count", 25);
         if (!isFirstTime) {
             params.put("max_id", maxId);
         }
@@ -223,11 +240,13 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
                 //  tweets.clear();
                 //endlessScrollViewListener.resetState();
                 populateTimeline(true, true);
+                recyclerView.scrollToPosition(0);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.v("failure", errorResponse.toString());
+               // Log.v("failure", errorResponse.toString());
+
             }
         }, params);
     }

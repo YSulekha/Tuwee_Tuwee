@@ -1,5 +1,6 @@
 package com.codepath.apps.tweet.activities;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -14,16 +15,19 @@ import com.codepath.apps.tweet.databinding.ActivityTwitterDetailBinding;
 import com.codepath.apps.tweet.fragments.ComposeDialog;
 import com.codepath.apps.tweet.models.Tweet;
 import com.codepath.apps.tweet.utils.Utility;
+import com.loopj.android.http.RequestParams;
 
 import org.parceler.Parcels;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-public class TwitterDetailActivity extends AppCompatActivity {
+public class TwitterDetailActivity extends AppCompatActivity implements ComposeDialog.SaveFilterListener {
 
     ActivityTwitterDetailBinding binding;
     private ComposeDialog.SaveFilterListener listener;
     Tweet t;
+    Boolean isReply=false;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +47,12 @@ public class TwitterDetailActivity extends AppCompatActivity {
         else{
             binding.detailMedia.setImageResource(0);
         }
+        intent = new Intent();
 
     }
 
     public void onClickReply(View v){
+        isReply = true;
         FragmentManager fm = getSupportFragmentManager();
         Bundle args = new Bundle();
         args.putBoolean("reply",true);
@@ -70,5 +76,15 @@ public class TwitterDetailActivity extends AppCompatActivity {
         //      // into(imageView);
         Log.v("Detail",url);
         Glide.with(imageView.getContext()).load(url).into(imageView);
+    }
+
+    @Override
+    public void onTweet(RequestParams params) {
+        isReply = true;
+        intent.putExtra("is_reply", isReply);
+        intent.putExtra("tweet_id",t.getTweetId());
+        intent.putExtra("params",params);
+        setResult(RESULT_OK, intent);
+
     }
 }
