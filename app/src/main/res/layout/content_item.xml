@@ -11,11 +11,12 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="@color/background_color">
 
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:id="@+id/item_profile"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
@@ -32,15 +33,22 @@
         android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp"
         android:id="@+id/item_name"
+        android:fontFamily="sans-serif-thin"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/title_color"
         android:text="@{tweet.user.userName}"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/item_name"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
         android:id="@+id/item_screenname"
+        android:fontFamily="sans-serif-thin"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimaryDark"
         android:text="@{tweet.user.screenName}"
         />
     <TextView
@@ -49,9 +57,12 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:id="@+id/item_time"
+        android:fontFamily="sans-serif-thin"
+        android:textSize="14sp"
+        android:textColor="@color/colorPrimaryDark"
         app:timeCalc="@{tweet.createdAt}"/>
 
-    <TextView
+    <com.codepath.apps.tweet.utils.LinkifiedTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/item_profile"
@@ -61,7 +72,16 @@
         android:layout_marginStart="12dp"
         android:text="@{tweet.body}"
         android:autoLink="all"
-        android:linksClickable="true"/>
+        android:textSize="16sp"
+        android:linksClickable="true"
+      />
+    <com.yqritc.scalablevideoview.ScalableVideoView
+        android:id="@+id/item_video_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_body"
+        app:scalableType="fitCenter"
+        app:videoDisplay="@{tweet.videoUrl}"/>
 
 </RelativeLayout>
     </layout>

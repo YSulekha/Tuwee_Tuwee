@@ -1,11 +1,15 @@
 package com.codepath.apps.tweet.utils;
 
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.format.DateUtils;
 import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import static com.loopj.android.http.AsyncHttpClient.log;
@@ -50,5 +54,28 @@ public class Utility {
         }
         relativeDate = relativeDate.replace(" ","");
         return relativeDate;
+    }
+
+    public static boolean isNetworkAvailable(Context context){
+        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    }
+
+    public static String formatDate(String createdAt){
+      //  Mon Oct 31 14:20:57 +0000 2016"
+        String createdDateFormat = "EEE MMM dd HH:mm:ss ZZZZ yyyy";
+        SimpleDateFormat format = new SimpleDateFormat(createdDateFormat, Locale.ENGLISH);
+        Date createdDate = null;
+        try {
+            createdDate = format.parse(createdAt);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String f = "hh:mm aa dd MMM yy";
+        SimpleDateFormat requiredFormat = new SimpleDateFormat(f);
+        String formattedDate = requiredFormat.format(createdDate);
+        Log.v("formatUtility",formattedDate);
+        return formattedDate;
     }
 }
